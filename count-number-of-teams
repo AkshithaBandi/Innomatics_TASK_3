@@ -1,10 +1,20 @@
 class Solution:
     def numTeams(self, rating: List[int]) -> int:
-        teams = 0
-        n = len(rating)
-        for i in range(n):
-            for j in range(i+1,n):
-                for k in range(j+1,n):
-                    if (rating[i] < rating[j] < rating[k]) or (rating[i] > rating[j] > rating[k]):
-                        teams += 1
-        return teams
+        def count_increasing(arr):
+            n = len(arr)
+            count = 0
+            for j in range(n):
+                left_smaller = 0
+                right_greater = 0
+
+                for i in range(j):
+                    if arr[i] < arr[j]:
+                        left_smaller += 1
+                for k in range(j + 1, n):
+                    if arr[k] > arr[j]:
+                        right_greater += 1
+
+                count += left_smaller * right_greater
+            return count
+
+        return count_increasing(rating) + count_increasing(rating[::-1])
